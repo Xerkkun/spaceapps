@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<script>
+
+var tiempo = 0
+function asignartiempo(valor){
+tiempo = parseInt(valor)
+}
+
+function calcula(){
+var energia = document.calc.energia.value;
+var potencia = document.calc.potencia.value;
+var irradiancia = document.calc.irradiancia.value;
+var energia_req = energia*1000;
+var HSP = irradiancia/365;
+var pot_req = energia_req/HSP;
+var numero = pot_req/(potencia*0.85);
+document.calc.numero.value = Math.ceil(numero);
+}
+
+
+</script>
+    <meta charset="UTF-8">
+    <title>CALCULADORA PARA PANELES SOLARES</title>
+<p>Calculadora para estimar la cantidad de paneles fotovoltaicos necesarios para avastecer la energía promedio requerida por el usuario </p>
+
+<p><b>Nota:</b> Si lo desea, despliegue el menú para más detalles.</p>
+
+<script>
+function myFunction() {
+    var x = document.createElement("Detalles");
+    var t = document.createTextNode("No sé que decirle a nuestro usuario autista para que sepa que datos meter...");
+    x.appendChild(t);
+    document.body.appendChild(x);
+}
+</script>
+
+<script>
+function e_prom() {
+var mes1 = parseInt(document.getElementById("mes1").value);
+var mes2 = parseInt(document.getElementById("mes2").value);
+var mes3 = parseInt(document.getElementById("mes3").value);
+var mes4 = parseInt(document.getElementById("mes4").value);
+var mes5 = parseInt(document.getElementById("mes5").value);
+var mes6 = parseInt(document.getElementById("mes6").value);
+var promedio = (mes1 + mes2 + mes3 + mes4 + mes5 + mes6)/tiempo;
+promedio.toPrecision(2);
+document.getElementById("resultado").value = promedio;
+}
+</script>
+
+</head>
+<body>
+
+<form name="calc">
+    <table id="calculadora">
+        <tr>
+            <td colspan="2">
+               <b>Energía promedio (Kwh/día)</b> <input type="Text" name="energia">
+            </td>
+	    <td colspan="2">
+               <b>potencia del panel(watts)</b> <input type="Text" name="potencia">
+            </td>
+            <td colspan="2">
+               <b>Irradiación</b> <input type="Text" name="irradiancia">
+            </td>
+
+            <td colspan="2">
+		<input type="Button" value="calcular cantidad de paneles" onclick="calcula()">
+            </td>
+            <td colspan="2">
+		<input type="Text" name="numero">
+            </td>
+        </tr>
+    </table>
+</form>
+
+
+<img src='irradiation.jpg' alt='Imagen'>
+
+
+<form>
+<table>
+
+<p><b>Nota:</b>Si su recibo es mensual, oprima "mensual", si no, oprima "bimestral".</p>
+        <tr>
+            <td>
+               <input type="Button" onclick="asignartiempo(183)" id="183" value="Recibo mensual">
+            </td>
+            <td>
+               <input type="Button" onclick="asignartiempo(365)" id="365" value="Recibo bimestral">
+            </td>
+	</tr>
+            <td colspan="2">
+               <input type="Text" name="mes1" id="mes1">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+               <input type="Text" name="mes2" id="mes2">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+               <input type="Text" name="mes3" id="mes3">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+               <input type="Text" name="mes4" id="mes4">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+               <input type="Text" name="mes5" id="mes5">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+               <input type="Text" name="mes6" id="mes6">
+            </td>
+	</tr>
+	<tr>
+            <td colspan="2">
+		<input type="Button" value="Energía promedio" onclick="e_prom()">
+            </td>
+	</tr>
+        <tr>
+            <td colspan="2">
+		<input type="Text" name="promedio" id="resultado">
+            </td>
+	</tr>
+    </table>
+</form>
+
+</body>
+</html>

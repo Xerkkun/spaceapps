@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<script>
+
+var tiempo = 0
+var potencia = 0
+var voltaje = 0
+var tipo = 0
+var ener_bat = 0
+var energia = 0
+
+function asignartiempo(valor){
+tiempo = parseInt(valor)
+}
+
+function asignarpotencia(entrada){
+potencia = parseInt(entrada)
+}
+
+function asignarvoltaje(potencial){
+voltaje = parseInt(potencial)
+}
+
+function asignartipo(porcentaje){
+tipo = parseInt(porcentaje)
+}
+
+function asignarenergia(entrada2){
+ener_bat = parseInt(entrada2)
+}
+
+function calcula(){
+energia = document.calc.energia.value;
+var irradiancia = document.calc.irradiancia.value;
+var energia_req = energia*1000;
+var HSP = irradiancia/365;
+var pot_req = energia_req/HSP;
+var numero = pot_req/(potencia*0.85);
+document.calc.numero.value = Math.ceil(numero);
+}
+
+function e_prom() {
+var mes1 = parseInt(document.getElementById("mes1").value);
+var mes2 = parseInt(document.getElementById("mes2").value);
+var mes3 = parseInt(document.getElementById("mes3").value);
+var mes4 = parseInt(document.getElementById("mes4").value);
+var mes5 = parseInt(document.getElementById("mes5").value);
+var mes6 = parseInt(document.getElementById("mes6").value);
+var promedio = (mes1 + mes2 + mes3 + mes4 + mes5 + mes6)/tiempo;
+promedio = promedio.toPrecision(4);
+document.getElementById("resultado").value = promedio;
+}
+
+function num_acum() {
+var dias = document.calc.dias.value;
+var ener_req = (energia*1000)*dias;
+var perdidas = ener_req*(tipo+1);
+var banco = (1.1*perdidas)/voltaje;
+banco = banco.toPrecision(8);
+document.getElementById("ener_banco").value = banco;
+var cantidad = banco/ener_bat;
+document.calc.cantidad.value = Math.ceil(cantidad);
+}
+</script>
+
+
+</script>
+    <meta charset="UTF-8">
+    <title>CALCULADORA PARA PANELES SOLARES</title>
+<p>Calculadora para estimar la cantidad de paneles fotovoltaicos necesarios para avastecer la energía promedio requerida por el usuario </p>
+
+
+</head>
+<body>
+
+<form name="calc">
+<table id="calculadora">
+
+<p><b>Nota:</b>Si su recibo es mensual, oprima "mensual", si no, oprima "bimestral".</p>
+        <tr>
+            <td>
+               <input type="Button" onclick="asignartiempo(183)" id="183" value="Recibo mensual">
+               <input type="Button" onclick="asignartiempo(365)" id="365" value="Recibo bimestral">
+            </td>
+	</tr>
+            <td colspan="2">
+               <input type="Text" name="mes1" id="mes1">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+               <input type="Text" name="mes2" id="mes2">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+               <input type="Text" name="mes3" id="mes3">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+               <input type="Text" name="mes4" id="mes4">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+               <input type="Text" name="mes5" id="mes5">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+               <input type="Text" name="mes6" id="mes6">
+            </td>
+	</tr>
+	<tr>
+            <td colspan="2">
+		<input type="Button" value="Energía promedio por día en un año(Kw/día)" onclick="e_prom()">
+            </td>
+	</tr>
+        <tr>
+            <td colspan="2">
+		<input type="Text" name="promedio">
+            </td>
+	</tr>
+        <tr>
+            <td colspan="2">
+               <b>Energía promedio (Kwh/día)</b> <input type="Text" name="energia">
+            </td>
+            <td colspan="2">
+               <b>Irradiación (Kwh/m²/y)</b> <input type="Text" name="irradiancia">
+            </td>
+
+
+        </tr>
+
+        <tr>
+	    <td colspan="2">
+               <b>potencia del panel(watts)</b> 
+            </td>
+            <td>
+               <input type="Button" onclick="asignarpotencia(60)" id="60" value="60 w">
+               <input type="Button" onclick="asignarpotencia(100)" id="100" value="100 w">
+               <input type="Button" onclick="asignarpotencia(150)" id="150" value="150 w">
+               <input type="Button" onclick="asignarpotencia(270)" id="270" value="270 w">
+            </td>
+	</tr>
+
+        <tr>
+            <td colspan="2">
+		<input type="Button" value="calcular cantidad de paneles" onclick="calcula()"> <input type="Text" name="numero">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+               <b>Días de autonomía</b> <input type="Text" name="dias">
+            </td>
+        </tr>
+
+        <tr>
+	    <td colspan="2">
+               <b>Voltaje del sistema(volts)</b> 
+            </td>
+            <td>
+               <input type="Button" onclick="asignarvoltaje(12)" id="12" value="6 v">
+               <input type="Button" onclick="asignarvoltaje(12)" id="12" value="12 v">
+               <input type="Button" onclick="asignarvoltaje(24)" id="24" value="24 v">
+            </td>
+	</tr>
+
+        <tr>
+	    <td colspan="2">
+               <b>Tipo de acumuladores</b> 
+            </td>
+            <td>
+               <input type="Button" onclick="asignartipo(0.50)" id="50%" value="Medio ciclo">
+
+               <input type="Button" onclick="asignartipo(0.70)" id="70%" value="Ciclo profundo">
+            </td>
+	</tr>
+        <tr>
+	    <td colspan="2">
+               <b>Energía por acumulador</b> 
+            </td>
+            <td>               
+	       <input type="Button" onclick="asignarenergia(150)" id="150 Ah" value="363 Ah">
+               <input type="Button" onclick="asignarenergia(220)" id="220 Ah" value="436 Ah">
+               <input type="Button" onclick="asignarenergia(150)" id="150 Ah" value="525 Ah">
+               <input type="Button" onclick="asignarenergia(220)" id="220 Ah" value="630 Ah">
+               <input type="Button" onclick="asignarenergia(300)" id="300 Ah" value="735 Ah">
+               <input type="Button" onclick="asignarenergia(450)" id="450 Ah" value="900 Ah">
+               <input type="Button" onclick="asignarenergia(150)" id="150 Ah" value="1200 Ah">
+               <input type="Button" onclick="asignarenergia(220)" id="220 Ah" value="1500 Ah">
+               <input type="Button" onclick="asignarenergia(300)" id="300 Ah" value="1800 Ah">
+               <input type="Button" onclick="asignarenergia(450)" id="450 Ah" value="2232 Ah">
+            </td>
+	</tr>
+        <tr>
+            <td colspan="2">
+		<input type="Button" value="calcular cantidad de acumuladores" onclick="num_acum()"> <input type="Text" name="cantidad" id="cantidad">
+            </td>
+        </tr>
+        <tr>
+            <td colspan>
+		<b>Enegía del banco de acumuladores</b>   
+            </td>
+            <td>
+                <input type="Text" name="ener_banco" id="ener_banco">
+            </td>
+        </tr>
+
+    </table>
+</form>
+
+<img src='irradiation.jpg' alt='Imagen'>
+
+</body>
+</html>
